@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Birthday Surprise Ultimate</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#000,#140014,#000428);
+color:#fff;
+padding:14px;
+overflow-x:hidden;
+}
+.page{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px 10px;
+animation:fade .6s ease;
+}
+.hidden{display:none}
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+h1,h2,p{text-align:center;margin-bottom:14px}
+
+button,.option{
+margin-top:15px;
+padding:14px 26px;
+border:none;
+border-radius:35px;
+background:linear-gradient(135deg,#ff3f86,#ff7ab0);
+color:#fff;
+font-size:18px;
+cursor:pointer;
+transition:.25s;
+box-shadow:0 10px 20px rgba(255,63,134,.25);
+}
+button:hover,.option:hover{transform:translateY(-2px) scale(1.03)}
+
+.front-page img{
+width:100%;
+max-width:850px;
+border-radius:20px;
+box-shadow:0 12px 30px rgba(255,255,255,.15);
+}
+
+.quiz-box{
+width:100%;
+max-width:720px;
+padding:25px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+backdrop-filter:blur(8px);
+}
+
+.option{
+display:block;
+width:100%;
+margin:10px 0;
+background:#222;
+}
+
+.gallery{
+width:100%;
+max-width:1100px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+justify-items:center;
+}
+
+.card{
+position:relative;
+width:100%;
+max-width:220px;
+height:250px;
+border-radius:18px;
+overflow:hidden;
+cursor:pointer;
+background:#111;
+}
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:.45s;
+}
+.card:hover img{transform:scale(1.05)}
+
+.cover{
+position:absolute;
+inset:0;
+background:linear-gradient(135deg,#ff3f86,#7b2cff);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:20px;
+font-weight:bold;
+transition:.55s;
+}
+.card.revealed .cover{
+opacity:0;
+visibility:hidden;
+transform:scale(.8);
+}
+
+.memory4 .card:nth-child(5){grid-column:2/3}
+.memory4 .card:nth-child(6){grid-column:3/4}
+
+.tap-heart{
+font-size:65px;
+cursor:pointer;
+margin-top:10px;
+transition:.2s;
+position:relative;
+}
+
+.final-msg{
+font-size:42px;
+animation:glow 1.5s infinite alternate;
+}
+@keyframes glow{
+from{text-shadow:0 0 10px #ff3f86}
+to{text-shadow:0 0 25px #ff7ab0}
+}
+
+.bouquet-page{
+position:relative;
+width:100%;
+min-height:100vh;
+padding:30px 20px;
+background:linear-gradient(135deg,#fff7f8,#ffdce8,#ffeef5);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+border-radius:20px;
+overflow:hidden;
+}
+.rose-title{
+font-size:52px;
+font-family:cursive;
+color:#b02863;
+margin-bottom:30px;
+}
+.bouquet-img{
+width:100%;
+max-width:420px;
+margin-top:90px;
+border-radius:18px;
+animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+50%{transform:translateY(-12px)}
+}
+.love-note{
+position:absolute;
+background:#fff;
+padding:16px 22px;
+border-radius:22px;
+font-size:20px;
+color:#b02863;
+max-width:280px;
+}
+.note1{top:140px;left:8%}
+.note2{top:220px;right:8%}
+.note3{top:360px;left:2%}
+.note4{bottom:300px;left:2%}
+.note5{bottom:300px;right:2%}
+.note6{bottom:150px;left:22%}
+
+@media(max-width:900px){
+.gallery{grid-template-columns:repeat(4,1fr)}
+.memory4 .card:nth-child(5),
+.memory4 .card:nth-child(6){grid-column:auto}
+.card{height:200px}
+}
+
+@media(max-width:768px){
+.gallery{grid-template-columns:repeat(2,1fr)}
+.card{height:220px}
+button,.option{font-size:16px;padding:12px 18px}
+.final-msg{font-size:30px}
+.rose-title{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<section class="page" id="p1">
+<img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Front%20Page.png" class="front-page">
+<button onclick="go(2)">Start Surprise 🎉</button>
+</section>
+
+<section class="page hidden" id="p2">
+<div class="quiz-box">
+<h2>Game 1 😘</h2>
+<p>Who is the cutest person ever?</p>
+<button class="option" onclick="ans('r1','Correct 💖')">You</button>
+<button class="option" onclick="ans('r1','Wrong 😏')">Me</button>
+<div id="r1"></div>
+<button onclick="go(3)">Unlock Memories 💋</button>
+</div>
+</section>
+
+<section class="page hidden" id="p3">
+<h2>Memories 💖</h2>
+<div class="gallery">
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_152218.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_152602.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_152825.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_153013.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_153313.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_154351.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20231230-WA0002.jpg"><div class="cover">Special Moment</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20240225-WA0009.jpg"><div class="cover">Special Moment</div></div>
+</div>
+<button onclick="go(4)">More? 😏</button>
+</section>
+
+<section class="page hidden" id="p4">
+<div class="quiz-box">
+<h2>Tap My Heart 💘</h2>
+<p>Catch my heart 8 times to unlock next page</p>
+<div id="movingHeart" class="tap-heart" onclick="tapHeart()">💖</div>
+<h2 id="score">0 / 8</h2>
+</div>
+</section>
+
+<section class="page hidden" id="p5">
+<h2>Special Moments ✨</h2>
+<div class="gallery">
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20240302-WA0012.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20240322-WA0001.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20240322-WA0002.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20250208-WA0005.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20250208-WA0006.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20250825-WA0015.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318181401.jpg"><div class="cover">Unlock This Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318181437.jpg"><div class="cover">Unlock This Memory</div></div>
+</div>
+<button onclick="go(6)">Keep Going Babe 💖</button>
+</section>
+
+<section class="page hidden" id="p6">
+<div class="quiz-box">
+<h2>Game 3 💞</h2>
+<p>Best couple award goes to?</p>
+<button class="option" onclick="ans('r3','Us obviously 😍')">Us</button>
+<button class="option" onclick="ans('r3','Wrong 😏')">Others</button>
+<div id="r3"></div>
+<button onclick="go(7)">Another Surprise 😉</button>
+</div>
+</section>
+
+<section class="page hidden" id="p7">
+<h2>Last Memories 🌸</h2>
+<div class="gallery">
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318185706.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318193738.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318194640.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG20260318194657.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-27732270.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-28063210.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-75542484.jpg"><div class="cover">Our Little Memory</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-860237794.jpg"><div class="cover">Our Little Memory</div></div>
+</div>
+<button onclick="go(8)">One More Secret 😘</button>
+</section>
+
+<section class="page hidden" id="p8">
+<div class="quiz-box">
+<h2>Game 4 💋</h2>
+<p>Who loves more?</p>
+<button class="option" onclick="ans('r4','Both do 😍')">Both</button>
+<button class="option" onclick="ans('r4','Cute answer 😘')">You</button>
+<div id="r4"></div>
+<button onclick="go(9)">Final Memories 💕</button>
+</div>
+</section>
+
+<section class="page hidden" id="p9">
+<h2>Final Memories 💕</h2>
+<div class="gallery memory4">
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-1197535442.jpg"><div class="cover">Wanna See?</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-1604323119%20(1).jpg"><div class="cover">Wanna See?</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-1641346128%20(1).jpg"><div class="cover">Wanna See?</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/Snapchat-1670425181.jpg"><div class="cover">Wanna See?</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG-20250614-WA0007.jpg"><div class="cover">Wanna See?</div></div>
+<div class="card" onclick="reveal(this)"><img src="https://raw.githubusercontent.com/Pkanalyst/Priyu/main/IMG_20260421_153013.jpg"><div class="cover">Wanna See?</div></div>
+</div>
+<button onclick="go(10)">Your Rose Bouquet 🌹</button>
+</section>
+
+<section class="page hidden" id="p10">
+<div class="bouquet-page">
+
+<h1 class="rose-title">YOUR ROSE BOUQUET 🌹</h1>
+
+<!-- Background Bouquet -->
+<img class="bouquet-img" 
+src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?q=80&w=800&auto=format&fit=crop"
+alt="Bouquet">
+
+
+<div class="love-note note1">Forever yours 💍</div>
+<div class="love-note note2">You make my nights unforgettable 🔥</div>
+<div class="love-note note3">One look at you and I lose control 😘</div>
+<div class="love-note note4">Happy Birthday my dangerous addiction 💖</div>
+<div class="love-note note5">I crave your hugs... and more 🥺</div>
+<div class="love-note note6">You’re my favorite temptation 💞</div>
+
+<button class="gift-btn" onclick="go(11)">Open Final Gift 🎁</button>
+
+</div>
+</section>
+
+<section class="page hidden" id="p11">
+<div class="final-msg">Happy Birthday My Love 🎂💖</div>
+
+<p style="font-size:24px;max-width:700px;line-height:1.7;text-align:center;">
+Every memory with you is special.<br>
+You make life brighter, sweeter and beautiful ✨<br><br>
+Thank you for being mine ❤️
+</p>
+
+<button onclick="go(1)">Replay Surprise 🔁</button>
+</section>
+
+<script>
+function go(n){
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.add('hidden');
+});
+
+document.getElementById('p'+n).classList.remove('hidden');
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+}
+
+function reveal(card){
+card.classList.add('revealed');
+}
+
+function ans(id,msg){
+document.getElementById(id).innerHTML =
+"<h2 style='margin-top:15px;color:#ff7ab0'>" + msg + "</h2>";
+}
+
+/* Heart Game */
+let taps = 0;
+
+function tapHeart(){
+taps++;
+
+document.getElementById("score").innerText = taps + " / 8";
+
+const heart = document.getElementById("movingHeart");
+
+/* Random movement */
+const x = Math.floor(Math.random()*260) - 130;
+const y = Math.floor(Math.random()*180) - 90;
+const scale = (0.85 + Math.random()*0.5).toFixed(2);
+const rotate = Math.floor(Math.random()*40)-20;
+
+heart.style.transition = "all .35s ease";
+heart.style.transform =
+`translate(${x}px,${y}px) scale(${scale}) rotate(${rotate}deg)`;
+
+/* sparkle effect */
+heart.innerHTML = "💖";
+
+if(taps >= 8){
+setTimeout(()=>{
+go(5);
+taps = 0;
+},600);
+}
+}
+</script>
